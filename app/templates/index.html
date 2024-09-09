@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice corporal</title>
+    <style>
+        .error {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de índice corporal</h1>
+    <form id="bmiForm" action="{{url_for('getData')}}" method="post" autocomplete="off">
+        <div>
+            <label for="gender">Género:</label><br/>
+            <label><input type="radio" name="gender" value="male" id="male"> Hombre</label>
+            <label><input type="radio" name="gender" value="female" id="female"> Mujer</label>
+            <span class="error" id="genderError">Por favor, seleccione un género.</span>
+        </div>
+        <div>
+            <label for="height">Altura (m):</label>
+            <input type="text" name="height" id="height">
+            <span class="error" id="heightError">Por favor, ingrese un valor válido.</span>
+        </div>
+        <div>
+            <label for="weight">Peso (Kg):</label>
+            <input type="text" name="weight" id="weight">
+            <span class="error" id="weightError">Por favor, ingrese un valor válido.</span>
+        </div>
+        <button type="submit">Calcular</button>
+    </form>
+    <p>{{data}}</p>
+
+    <script>
+        document.getElementById('bmiForm').addEventListener('submit', function(event) {
+            let valid = true;
+
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const genderMale = document.getElementById('male').checked;
+            const genderFemale = document.getElementById('female').checked;
+
+            const heightError = document.getElementById('heightError');
+            const weightError = document.getElementById('weightError');
+            const genderError = document.getElementById('genderError');
+
+            const numberPattern = /^\d*\.?\d+$/;
+            
+            // Valid the gender field
+            if (!genderMale && !genderFemale) {
+                genderError.style.display = 'block';
+                valid = false;
+            } else {
+                genderError.style.display = 'none';
+            }
+            // Valid the height field
+            if (!numberPattern.test(height)) {
+                heightError.style.display = 'block';
+                valid = false;
+            } else {
+                heightError.style.display = 'none';
+            }
+            // Valid the weight field
+            if (!numberPattern.test(weight)) {
+                weightError.style.display = 'block';
+                valid = false;
+            } else {
+                weightError.style.display = 'none';
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
