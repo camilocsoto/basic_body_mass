@@ -10,14 +10,14 @@ def index():
 #recibe los datos del formulario
 @app.route('/getData', methods = ['GET', 'POST'])
 def getData():
+
     if request.method == 'POST':
         x = request.form['gender']
         h = request.form['height']
         w = request.form['weight']
         return calculate(x, h, w)
     else:
-        return "fuck you bitch! .I."
-    
+        return "No me andes picoteando pvto"
 def calculate(x, h, w):
     a = float(h)
     b = float(w)

@@ -3,36 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Índice corporal</title>
-    <style>
-        .error {
-            color: red;
-            display: none;
-        }
-    </style>
+    <title>Índice Corporal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Calculadora de índice corporal</h1>
-    <form id="bmiForm" action="{{url_for('getData')}}" method="post" autocomplete="off">
-        <div>
-            <label for="gender">Género:</label><br/>
-            <label><input type="radio" name="gender" value="male" id="male"> Hombre</label>
-            <label><input type="radio" name="gender" value="female" id="female"> Mujer</label>
-            <span class="error" id="genderError">Por favor, seleccione un género.</span>
+<body class="bg-light d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Calculadora de Índice Corporal</h1>
+                <p class="text-center">Los decimales se representan con puntos (.) no con comas (,)</p>
+                <form id="bmiForm" action="{{url_for('getData')}}" method="post" autocomplete="off" class="bg-white p-4 rounded shadow">
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Género:</label><br/>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" value="male" id="male">
+                            <label class="form-check-label" for="male">Hombre</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" value="female" id="female">
+                            <label class="form-check-label" for="female">Mujer</label>
+                        </div>
+                        <div class="form-text text-danger d-none" id="genderError">Por favor, seleccione un género.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="height" class="form-label">Altura (m):</label>
+                        <input type="text" class="form-control" name="height" id="height">
+                        <div class="form-text text-danger d-none" id="heightError">Por favor, ingrese un valor válido.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Peso (Kg):</label>
+                        <input type="text" class="form-control" name="weight" id="weight">
+                        <div class="form-text text-danger d-none" id="weightError">Por favor, ingrese un valor válido.</div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Calcular</button>
+                </form>
+                <p class="text-center mt-4">{{data}}</p>
+            </div>
         </div>
-        <div>
-            <label for="height">Altura (m):</label>
-            <input type="text" name="height" id="height">
-            <span class="error" id="heightError">Por favor, ingrese un valor válido.</span>
-        </div>
-        <div>
-            <label for="weight">Peso (Kg):</label>
-            <input type="text" name="weight" id="weight">
-            <span class="error" id="weightError">Por favor, ingrese un valor válido.</span>
-        </div>
-        <button type="submit">Calcular</button>
-    </form>
-    <p>{{data}}</p>
+    </div>
 
     <script>
         document.getElementById('bmiForm').addEventListener('submit', function(event) {
@@ -49,26 +58,28 @@
 
             const numberPattern = /^\d*\.?\d+$/;
             
-            // Valid the gender field
+            // Validar el campo de género
             if (!genderMale && !genderFemale) {
-                genderError.style.display = 'block';
+                genderError.classList.remove('d-none');
                 valid = false;
             } else {
-                genderError.style.display = 'none';
+                genderError.classList.add('d-none');
             }
-            // Valid the height field
+
+            // Validar el campo de altura
             if (!numberPattern.test(height)) {
-                heightError.style.display = 'block';
+                heightError.classList.remove('d-none');
                 valid = false;
             } else {
-                heightError.style.display = 'none';
+                heightError.classList.add('d-none');
             }
-            // Valid the weight field
+
+            // Validar el campo de peso
             if (!numberPattern.test(weight)) {
-                weightError.style.display = 'block';
+                weightError.classList.remove('d-none');
                 valid = false;
             } else {
-                weightError.style.display = 'none';
+                weightError.classList.add('d-none');
             }
 
             if (!valid) {
@@ -76,5 +87,8 @@
             }
         });
     </script>
+
+    <!-- Bootstrap JS and dependencies (Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
